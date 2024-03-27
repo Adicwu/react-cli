@@ -1,0 +1,61 @@
+.lqScrollbar {
+  position: relative;
+  overflow: hidden;
+  // height: 100%;
+  --el-scrollbar-opacity: 0.3;
+  --el-scrollbar-bg-color: #a3a6ad;
+  --el-scrollbar-hover-opacity: 0.5;
+  --el-scrollbar-hover-bg-color: #a3a6ad;
+
+  &-wrap {
+    overflow: auto;
+    height: 100%;
+    scrollbar-width: none;
+    z-index: 1;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &-view {}
+
+  &-bar {
+    position: absolute;
+    right: 2px;
+    bottom: 4px;
+    z-index: 2;
+    border-radius: 4px;
+
+    &__thumb {
+      position: relative;
+      display: block;
+      width: 0;
+      height: 0;
+      cursor: pointer;
+      border-radius: inherit;
+      background-color: var(--el-scrollbar-bg-color,
+          var(--el-text-color-secondary));
+      transition: var(--el-transition-duration) background-color;
+      opacity: var(--el-scrollbar-opacity, 0.3);
+    }
+
+    &.horizontal {
+      height: 4px;
+      left: 2px;
+
+      .lqScrollbar-bar__thumb {
+        height: 100%;
+      }
+    }
+
+    &.vertical {
+      width: 4px;
+      top: 2px;
+
+      .lqScrollbar-bar__thumb {
+        width: 100%;
+      }
+    }
+  }
+}

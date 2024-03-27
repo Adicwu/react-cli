@@ -1,0 +1,8 @@
+{
+  "css.customData": [".vscode/tailwindcss.json"],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "findUnusedExports.detectCircularImports": true
+}

@@ -1,0 +1,14 @@
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+
+  &-thumb {
+    border-radius: 15px;
+    background-color: rgba(144, 147, 153, 0.3);
+
+    &:hover {
+      background-color: rgba(144, 147, 153, 0.5);
+    }
+  }
+}

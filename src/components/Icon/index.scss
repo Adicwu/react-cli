@@ -1,0 +1,43 @@
+.icon {
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  @apply text-color-desc2;
+
+  &-control {
+    @apply cursor-pointer;
+
+    &:hover {
+      @apply text-color-base;
+    }
+
+    &::before {
+      @apply transition-all;
+
+      &:hover {
+        @apply -translate-y-[2px];
+      }
+
+      &:active {
+        @apply opacity-[0.5];
+      }
+    }
+  }
+}
+
+.icon-loading {
+  width: 14px;
+  height: 14px;
+  animation: rt 1.25s infinite alternate;
+
+  @keyframes rt {
+    from {
+      transform: rotate(0);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
