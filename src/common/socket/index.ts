@@ -1,4 +1,3 @@
-import { getToken } from '@/entry/utils'
 import { jsonParse, wait } from '@/utils'
 import { SOCKET_URL } from './config'
 import { useEffect } from 'react'
@@ -49,9 +48,9 @@ const connect = async () => {
 
 const createWebSocket = () =>
   new Promise<WebSocket | null>((resolve, reject) => {
-    const token = getToken()
-    if (!token) return reject()
-    const soc = new WebSocket(`${SOCKET_URL}/api/v1/task/ws?token=${token}`)
+    // const { token } = getUID()
+    // if (!token) return reject()
+    const soc = new WebSocket(`${SOCKET_URL}/xxxx`)
     soc.onopen = () => {
       soc.send('Hello Server!')
       startHeartBeat()

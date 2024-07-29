@@ -9,11 +9,15 @@ declare interface Window {
 }
 
 declare interface ImportMetaEnv {
+  /** 版本提交id 构建时主体生成 */
+  readonly VITE_SITE_COMMIT_ID: string
   /** 系统版本 x.x.x */
   readonly VITE_APP_VERSION: string
+  /** html名称 */
+  readonly VITE_SITE_NAME: string
 
-  /** 产品网站ico */
-  readonly VITE_SITE_ICO: string
+  /** iconfont调试地址 */
+  readonly VITE_ICONFONT_DEV_URL: string
 
   /** 开发环境是否开放https */
   readonly VITE_DEV_HTTPS: boolean
@@ -44,8 +48,8 @@ declare type PageResult<T> = {
 }
 declare type PageOrder = 'desc' | 'asc' | ''
 declare type PageParams<T> = {
-  order_field?: string
-  order?: PageOrder
+  /** `${字段} ${顺序}` */
+  order_by?: string[]
   page: number
   count: number
 } & T

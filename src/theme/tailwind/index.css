@@ -1,4 +1,4 @@
-@import './tailwind-preflight.css';
+@import './preflight.css';
 
 @tailwind base;
 @tailwind components;
@@ -15,17 +15,19 @@
 }
 
 @layer base {
+  #app {
+  }
   .theme-light {
-    --color-base: theme('colors.white');
-    --color-text-success: var(--color-success);
-
   }
 
-  .theme-dark {}
+  .theme-dark {
+  }
 }
 
 @layer components {
+}
 
+@layer utilities {
   .skeleton {
     background: linear-gradient(90deg, #f0f2f5 25%, #e6e8eb 37%, #f0f2f5 63%);
     background-size: 400% 100%;

@@ -15,7 +15,7 @@ export async function getProjectlist(
   try {
     const { data } = await request<PageResult<ApiProjectType.BaseInfo>>(
       'get',
-      '/api/v1/projects',
+      'api/v1/projects',
       params
     )
     const isTrueData =
@@ -33,7 +33,7 @@ export async function getProjectlist(
  * @returns
  */
 export function useProject(id: string) {
-  return useSWR(`/api/v1/projects/${id}`, async (url) => {
+  return useSWR(`api/v1/projects/${id}`, async (url) => {
     try {
       const { data } = await request<ApiProjectType.BaseInfo>('get', url)
       return data
@@ -54,7 +54,7 @@ export async function createProject(
   try {
     const { data } = await request<{
       business_id: string
-    }>('post', `/api/v1/projects`, params)
+    }>('post', `api/v1/projects`, params)
     return data?.business_id
   } catch {
     return null
@@ -68,7 +68,7 @@ export async function createProject(
  */
 export async function delProject(params: { business_ids: string[] }) {
   try {
-    const resp = await request('delete', `/api/v1/projects`, params)
+    const resp = await request('delete', `api/v1/projects`, params)
     return resp
   } catch {
     return null
@@ -87,7 +87,7 @@ export async function editProject(
   try {
     const resp = await request<{
       business_id: string
-    }>('put', `/api/v1/projects/${id}`, params)
+    }>('put', `api/v1/projects/${id}`, params)
     return resp
   } catch {
     return null

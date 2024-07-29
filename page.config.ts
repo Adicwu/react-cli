@@ -2,7 +2,7 @@ interface PageInfo {
   html: string
   route?: string[]
 }
-export type PageMark = 'Index' | 'Login' | 'Project'
+export type PageMark = 'Index' | 'Login'
 
 export const LoginPage = 'login.html'
 export const Page: {

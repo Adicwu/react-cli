@@ -8,15 +8,15 @@ import path from 'path'
 import { visualizer } from 'rollup-plugin-visualizer'
 import tailwindcss from 'tailwindcss'
 import { UserConfig, defineConfig, loadEnv } from 'vite'
-import vitePluginRequire from 'vite-plugin-require'
 import { LoginPage, Page } from './page.config'
 import { vitePluginCreateEnv } from './src/plugins/vitePluginCreateEnv'
+import { vitePluginIconfontDev } from './src/plugins/vitePluginIconfontDev'
 import { vitePluginRename } from './src/plugins/vitePluginRename'
 
 type UserConfigWithoutPlugins = Omit<UserConfig, 'plugins'>
 
 const resolve = (p: string) => path.resolve(__dirname, p)
-const createOutDir = (p: string) => `../output/web/${p}`
+const createOutDir = (p: string) => `./dist/${p}`
 const entry = Object.entries(Page).reduce((totol, [k, v]) => {
   totol[k.toLowerCase()] = resolve(v.html)
   return totol
@@ -34,9 +34,7 @@ export default defineConfig(({ mode, command }) => {
       react(),
       CodeInspectorPlugin({
         bundler: 'vite'
-      }),
-      // @ts-ignore 插件本身的问题
-      vitePluginRequire.default()
+      })
       // {
       //   ...eslint({
       //     include: ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.vue'],
@@ -44,7 +42,7 @@ export default defineConfig(({ mode, command }) => {
       //   }),
       //   apply: 'serve',
       //   enforce: 'post'
-      // }
+      // },
     ],
     css: {
       postcss: {
@@ -102,12 +100,20 @@ export default defineConfig(({ mode, command }) => {
     }
 
     baseConfig.plugins.push(vitePluginCreateEnv())
+    if (env.VITE_ICONFONT_DEV_URL) {
+      baseConfig.plugins.push(
+        vitePluginIconfontDev({
+          href: env.VITE_ICONFONT_DEV_URL
+        })
+      )
+    }
     if (env.VITE_DEV_HTTPS) {
       baseConfig.plugins.push(basicSsl())
     }
     return merge(baseConfig, devConfig)
   } else {
     // 生产环境
+    const commitId = env.VITE_SITE_COMMIT_ID || ''
 
     const baseproductConfig: UserConfigWithoutPlugins = {
       logLevel: 'error',
@@ -115,13 +121,13 @@ export default defineConfig(({ mode, command }) => {
         emptyOutDir: true,
         rollupOptions: {
           output: {
-            entryFileNames: 'js/[hash].js',
-            chunkFileNames: 'js/[hash].js',
+            entryFileNames: `js/[hash]-${commitId}.js`,
+            chunkFileNames: `js/[hash]-${commitId}.js`,
             assetFileNames(item) {
               if (['.svg', '.css'].some((k) => item.name.includes(k))) {
-                return `[ext]/[hash][extname]`
+                return `[ext]/[hash]-${commitId}[extname]`
               }
-              return 'assets/[hash][extname]'
+              return `assets/[hash]-${commitId}[extname]`
             }
           }
         }
@@ -160,9 +166,8 @@ export default defineConfig(({ mode, command }) => {
           rollupOptions: {
             input: entry,
             output: {
-              manualChunks: {
-                validator: ['validator']
-              }
+              // 单独依赖文件拆分
+              manualChunks: {}
             }
           }
         }
