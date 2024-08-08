@@ -2,7 +2,6 @@
 import { Page } from '../../page.config'
 
 import { jumpLogin } from '@/router/jump'
-import { wait } from '@/utils'
 import { RouteObject } from 'react-router-dom'
 
 export const pathIsInView = (p: string, views?: string[]) => {
@@ -45,6 +44,5 @@ export const removeToken = () => {
 export async function logout() {
   // Api.authLogout()
   removeToken()
-  await wait(1000)
   jumpLogin()
 }
