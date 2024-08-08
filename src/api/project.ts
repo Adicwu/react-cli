@@ -1,6 +1,7 @@
 import { request } from '@/common/request'
 import type { ApiProjectType } from '@type/api'
 import useSWR from 'swr'
+import useSWRMutation from 'swr/mutation'
 
 /**
  * 项目-列表
@@ -44,52 +45,25 @@ export function useProject(id: string) {
 }
 
 /**
- * 项目-创建
- * @param params
- * @returns
- */
-export async function createProject(
-  params: Partial<ApiProjectType.EditableInfo>
-) {
-  try {
-    const { data } = await request<{
-      business_id: string
-    }>('post', `api/v1/projects`, params)
-    return data?.business_id
-  } catch {
-    return null
-  }
-}
-
-/**
- * 项目-删除
- * @param params
- * @returns
- */
-export async function delProject(params: { business_ids: string[] }) {
-  try {
-    const resp = await request('delete', `api/v1/projects`, params)
-    return resp
-  } catch {
-    return null
-  }
-}
-
-/**
  * 项目-修改
- * @param params
  * @returns
  */
-export async function editProject(
-  id: string,
-  params: Partial<ApiProjectType.EditableInfo>
-) {
-  try {
-    const resp = await request<{
-      business_id: string
-    }>('put', `api/v1/projects/${id}`, params)
-    return resp
-  } catch {
-    return null
-  }
+export function useEditProject() {
+  return useSWRMutation(
+    'projects/{id}',
+    async (
+      url,
+      {
+        arg
+      }: {
+        arg: ApiProjectType.EditableInfo & {
+          id: string
+        }
+      }
+    ) => {
+      return await request<{
+        business_id: string
+      }>('put', `projects/${arg.id}`, arg)
+    }
+  )
 }
